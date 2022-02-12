@@ -1,0 +1,78 @@
+create database Hadayi_Airlines
+use Hadayi_Airlines
+
+create table Lugar(
+lugar_id nchar(7) not null
+constraint Lugar_lugar_id_pk primary key,
+aeropuerto nchar(100) not null,
+lugar nchar(20) not null,
+país nchar(15)
+)
+
+create table Avion(
+matricula nchar(7) not null
+constraint Avion_matricula_pk primary key,
+capacidad int not null,
+modelo nchar(20) not null
+)
+
+create table Vuelo(
+vuelo_id nchar(7) not null
+constraint Vuelo_vuelo_id_pk primary key,
+precio_economica decimal(10,2) not null,
+precio_ejecutivo decimal(10,2) not null,
+duración time(7),
+matricula nchar(7) not null,
+origen nchar(7) null,
+destino nchar(7) null,
+constraint Vuelo_matricula_fk foreign key(matricula) references Avion(matricula),
+constraint Vuelo_origen_fk foreign key(origen) references Lugar(lugar_id),
+constraint Vuelo_destino_fk foreign key(destino) references Lugar(lugar_id)
+)
+
+create table Personal(
+cedula_p nchar(15) not null
+constraint Personal_cedula_p_pk primary key,
+nombre nchar(15) not null,
+apellido nchar(15) not null,
+salario float not null,
+cargo nchar(35) not null,
+vuelo_id nchar(7) not null,
+constraint Personal_vuelo_id_fk foreign key(vuelo_id) references Vuelo(vuelo_id)
+)
+
+create table Cliente(
+cedula_c nchar(15) not null
+constraint Cliente_cedula_c_pk primary key,
+nombre nchar(15) not null,
+apellido nchar(15) not null,
+tipo nchar(15) not null
+)
+
+create table ClienteVuelo(
+fecha date null,
+cedula_c nchar(15) not null,
+vuelo_id nchar(7) not null,
+constraint ClienteVuelo_cedula_c_vuelo_id_pk primary key(cedula_c,vuelo_id),
+constraint ClienteVuelo_cedula_c_fk foreign key(cedula_c) references Cliente2(cedula_c),
+constraint ClienteVuelo_vuelo_id_fk foreign key(vuelo_id) references Vuelo2(vuelo_id)
+)
+
+create table Reserva(
+reserva_id nchar(7) not null
+constraint Reserva_reserva_id_pk primary key,
+clase nchar(15),
+numero_puesto int,
+cod_familia nchar(20),
+cedula_c nchar(15) not null,
+constraint Reserva_cedula_c_fk foreign key(cedula_c) references Cliente(cedula_c)
+)
+
+create table Pago(
+pago_id nchar(7) not null
+constraint Pago_pago_id_pk primary key,
+monto float not null,
+metodo nchar(35) not null,
+cedula_c nchar(15) not null,
+constraint Pago_cedula_c_fk foreign key(cedula_c) references Cliente(cedula_c)
+)
