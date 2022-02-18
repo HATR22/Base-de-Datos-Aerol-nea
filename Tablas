@@ -54,8 +54,8 @@ fecha date null,
 cedula_c nchar(15) not null,
 vuelo_id nchar(7) not null,
 constraint ClienteVuelo_cedula_c_vuelo_id_pk primary key(cedula_c,vuelo_id),
-constraint ClienteVuelo_cedula_c_fk foreign key(cedula_c) references Cliente2(cedula_c),
-constraint ClienteVuelo_vuelo_id_fk foreign key(vuelo_id) references Vuelo2(vuelo_id)
+constraint ClienteVuelo_cedula_c_fk foreign key(cedula_c) references Cliente(cedula_c),
+constraint ClienteVuelo_vuelo_id_fk foreign key(vuelo_id) references Vuelo(vuelo_id)
 )
 
 create table Reserva(
